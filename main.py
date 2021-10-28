@@ -1,4 +1,6 @@
 import sys
+from time import sleep
+from datetime import datetime, timedelta
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
@@ -14,8 +16,10 @@ class Main(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.tableWidget.setColumnCount(5)
         self.tableWidget.setRowCount(5)
+        self.time = datetime.today()
+        print(self.time)
+        self.date_disp.display("{0}.{1}.{2}".format(self.time.day,self.time.month, self.time.year))
         self.tableWidget.setItem(0, 0, QTableWidgetItem("123123"))
-
         self.tableWidget.resizeColumnsToContents()
 
 
