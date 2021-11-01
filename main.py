@@ -16,11 +16,12 @@ class Main(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.tableWidget.setColumnCount(5)
         self.tableWidget.setRowCount(5)
-        self.time = datetime.today()
-        print(self.time)
-        self.date_disp.display("{0}.{1}.{2}".format(self.time.day,self.time.month, self.time.year))
         self.tableWidget.setItem(0, 0, QTableWidgetItem("123123"))
         self.tableWidget.resizeColumnsToContents()
+        self.show()
+
+    def show(self):
+        pass
 
 
 def except_hook(cls, exception, traceback):
