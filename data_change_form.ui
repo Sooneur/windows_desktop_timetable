@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QRadioButton" name="ttab_tab_rbtn">
+  <widget class="QRadioButton" name="ttab_tabl_rbtn">
    <property name="geometry">
     <rect>
      <x>165</x>
@@ -26,10 +26,10 @@
     <string>Time Table</string>
    </property>
    <attribute name="buttonGroup">
-    <string notr="true">tab_rbtns</string>
+    <string notr="true">tabl_rbtns</string>
    </attribute>
   </widget>
-  <widget class="QRadioButton" name="dead_tab_rbtn">
+  <widget class="QRadioButton" name="dead_tabl_rbtn">
    <property name="geometry">
     <rect>
      <x>165</x>
@@ -42,10 +42,10 @@
     <string>Deadline</string>
    </property>
    <attribute name="buttonGroup">
-    <string notr="true">tab_rbtns</string>
+    <string notr="true">tabl_rbtns</string>
    </attribute>
   </widget>
-  <widget class="QRadioButton" name="add_type_rbtn">
+  <widget class="QRadioButton" name="add_oper_rbtn">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -58,10 +58,10 @@
     <string>Add</string>
    </property>
    <attribute name="buttonGroup">
-    <string notr="true">type_rbtns</string>
+    <string notr="true">oper_rbtns</string>
    </attribute>
   </widget>
-  <widget class="QRadioButton" name="chg_type_rbtn">
+  <widget class="QRadioButton" name="chg_oper_rbtn">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -74,14 +74,14 @@
     <string>Change</string>
    </property>
    <attribute name="buttonGroup">
-    <string notr="true">type_rbtns</string>
+    <string notr="true">oper_rbtns</string>
    </attribute>
   </widget>
  </widget>
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="type_rbtns"/>
-  <buttongroup name="tab_rbtns"/>
+  <buttongroup name="oper_rbtns"/>
+  <buttongroup name="tabl_rbtns"/>
  </buttongroups>
 </ui>

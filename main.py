@@ -25,11 +25,14 @@ class Main(QMainWindow, Ui_MainWindow):
         self.add_ttab_btn.clicked.connect(self.change_data)
         self.chg_dead_btn.clicked.connect(self.change_data)
         self.chg_ttab_btn.clicked.connect(self.change_data)
+        self.parents = [self.dead_btns, self.ttab_btns]
+        self.tables = []
+        self.parent_to_table = zip(self.parents, self.tables)
         self.changing_form = ChangingForm()
 
     def change_data(self):
         self.changing_form.show()
-        pass
+        self.parent_to_table[self.sender().parent()]
 
     def show_data(self):
         pass
