@@ -1,26 +1,37 @@
 import sys
-from time import sleep
-from datetime import datetime, timedelta
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
-from design import Ui_MainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QDialog
+from main_form import Ui_MainWindow
+from data_change_form import Ui_Dialog
 
 
-# Наследуемся от виджета из PyQt5.QtWidgets и от класса с интерфейсом
+class ChangingForm(QDialog, Ui_Dialog):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+
+
 class Main(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        # Вызываем метод для загрузки интерфейса из класса Ui_MainWindow,
-        # остальное без изменений
         self.setupUi(self)
-        self.tableWidget.setColumnCount(5)
-        self.tableWidget.setRowCount(5)
-        self.tableWidget.setItem(0, 0, QTableWidgetItem("123123"))
-        self.tableWidget.resizeColumnsToContents()
-        self.show()
+        # self.dead_tabl.setColumnCount(5)
+        # self.dead_tabl.setRowCount(5)
+        # self.dead_tabl.setItem(0, 0, QTableWidgetItem("123123"))
+        # self.dead_tabl.resizeColumnsToContents()
+        self.show_data()
+        self.add_dead_btn.clicked.connect(self.change_data)
+        self.add_ttab_btn.clicked.connect(self.change_data)
+        self.chg_dead_btn.clicked.connect(self.change_data)
+        self.chg_ttab_btn.clicked.connect(self.change_data)
+        self.changing_form = ChangingForm()
 
-    def show(self):
+    def change_data(self):
+        self.changing_form.show()
+        pass
+
+    def show_data(self):
         pass
 
 

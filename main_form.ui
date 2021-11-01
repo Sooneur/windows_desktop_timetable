@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>430</width>
+    <height>460</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTableWidget" name="ttab_tabl">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>40</y>
+      <width>200</width>
+      <height>300</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="dead_tabl">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>200</width>
+      <height>300</height>
+     </rect>
+    </property>
+    <attribute name="verticalHeaderMinimumSectionSize">
+     <number>23</number>
+    </attribute>
+   </widget>
+   <widget class="QLabel" name="ttab_txt">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>10</y>
+      <width>200</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MV Boli</family>
+      <pointsize>12</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Time Table</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="dead_txt">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>200</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MV Boli</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Dead Lines</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="dead_btns">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>390</y>
+      <width>200</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>GroupBox</string>
+    </property>
+    <widget class="QPushButton" name="add_dead_btn">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>95</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Add Deadline</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">add_btns</string>
+     </attribute>
+    </widget>
+    <widget class="QPushButton" name="chg_dead_btn">
+     <property name="geometry">
+      <rect>
+       <x>105</x>
+       <y>0</y>
+       <width>95</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Change Deadline</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">chg_btns</string>
+     </attribute>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="ttab_btns">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>390</y>
+      <width>200</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>GroupBox</string>
+    </property>
+    <widget class="QPushButton" name="add_ttab_btn">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>95</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Add Time Timable</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">add_btns</string>
+     </attribute>
+    </widget>
+    <widget class="QPushButton" name="chg_ttab_btn">
+     <property name="geometry">
+      <rect>
+       <x>105</x>
+       <y>0</y>
+       <width>95</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Change Deadline</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">chg_btns</string>
+     </attribute>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="view_dead_btn">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>350</y>
+      <width>200</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>View Deadlines</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string notr="true">view_btns</string>
+    </attribute>
+   </widget>
+   <widget class="QPushButton" name="view_ttab_btn">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>350</y>
+      <width>200</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>View Time Table</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string notr="true">view_btns</string>
+    </attribute>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>430</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="add_btns">
+   <property name="exclusive">
+    <bool>true</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="chg_btns">
+   <property name="exclusive">
+    <bool>true</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="view_btns"/>
+ </buttongroups>
+</ui>
