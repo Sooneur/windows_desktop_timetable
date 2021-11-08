@@ -100,7 +100,7 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>95</width>
+       <width>99</width>
        <height>30</height>
       </rect>
      </property>
@@ -114,9 +114,9 @@
     <widget class="QPushButton" name="chg_dead_btn">
      <property name="geometry">
       <rect>
-       <x>105</x>
+       <x>101</x>
        <y>0</y>
-       <width>95</width>
+       <width>99</width>
        <height>30</height>
       </rect>
      </property>
@@ -145,12 +145,12 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>95</width>
+       <width>99</width>
        <height>30</height>
       </rect>
      </property>
      <property name="text">
-      <string>Add Time Timable</string>
+      <string>Add Time Table</string>
      </property>
      <attribute name="buttonGroup">
       <string notr="true">add_btns</string>
@@ -159,14 +159,14 @@
     <widget class="QPushButton" name="chg_ttab_btn">
      <property name="geometry">
       <rect>
-       <x>105</x>
+       <x>101</x>
        <y>0</y>
-       <width>95</width>
+       <width>99</width>
        <height>30</height>
       </rect>
      </property>
      <property name="text">
-      <string>Change Deadline</string>
+      <string>Change Time Table</string>
      </property>
      <attribute name="buttonGroup">
       <string notr="true">chg_btns</string>
@@ -183,7 +183,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>View Deadlines</string>
+     <string>View All Deadlines</string>
     </property>
     <attribute name="buttonGroup">
      <string notr="true">view_btns</string>
@@ -226,11 +226,11 @@
     <bool>true</bool>
    </property>
   </buttongroup>
+  <buttongroup name="view_btns"/>
   <buttongroup name="chg_btns">
    <property name="exclusive">
     <bool>true</bool>
    </property>
   </buttongroup>
-  <buttongroup name="view_btns"/>
  </buttongroups>
 </ui>
