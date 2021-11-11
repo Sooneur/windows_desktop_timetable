@@ -1,11 +1,12 @@
 import sqlite3
 import sys
-from datetime import date, time
+from datetime import date, time, timedelta
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog  # , QTableWidgetItem
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QTableWidgetItem
 from main_form import Ui_MainWindow
-from data_change_form import Ui_Dialog
+from data_change_form import Ui_Dialog as UI_Data_Change
+from viewer import Ui_Dialog as UI_Viewer
 
 
 class TableElementTime:
@@ -36,7 +37,7 @@ class TableElementTime:
             WHERE table_element_id = (SELECT id FROM TableElements WHERE title = "{title}")'''
 
 
-class ChangingForm(QDialog, Ui_Dialog):
+class ChangingForm(QDialog, UI_Data_Change):
     def __init__(self, db_con):
         super().__init__()
         self.setupUi(self)
@@ -142,21 +143,49 @@ class ChangingForm(QDialog, Ui_Dialog):
         self.close()
 
 
+class Viewer(QDialog, UI_Viewer):
+    def __init__(self, db_con):
+        super().__init__()
+        self.setupUi(self)
+        self.db_con = db_con
+
+        self.rows = 6
+        self.columns = 7
+        self.week_days = (
+            "Monday", "Tuesday", "Wednesday", "Thursday",
+            "Friday", "Saturday", "Sunday"
+        )
+        # self.viewer_tbl.setItem()
+        self.viewer_tbl.setColumnCount(self.columns)
+        self.viewer_tbl.setHorizontalHeaderLabels(self.week_days)
+        self.viewer_tbl.setRowCount(self.rows)
+        for i in range(self.rows):
+            self.viewer_tbl.setRowHeight(i, 65)
+        for i in range(self.columns):
+            self.viewer_tbl.setColumnWidth(i, 65)
+
+
 class Main(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
 
         self.db_con = sqlite3.connect("db.db")
-        self.show_data()
-        self.add_dead_btn.clicked.connect(self.change_data)
-        self.add_ttab_btn.clicked.connect(self.change_data)
-        self.chg_dead_btn.clicked.connect(self.change_data)
-        self.chg_ttab_btn.clicked.connect(self.change_data)
         self.changing_form = ChangingForm(self.db_con)
+        self.viewer = Viewer(self.db_con)
 
-    def change_data(self):
+        self.show_data()
+        self.add_dead_btn.clicked.connect(self.open_data_changer)
+        self.add_ttab_btn.clicked.connect(self.open_data_changer)
+        self.chg_dead_btn.clicked.connect(self.open_data_changer)
+        self.chg_ttab_btn.clicked.connect(self.open_data_changer)
+        self.view_dead_btn.clicked.connect(self.open_viewer)
+        self.view_ttab_btn.clicked.connect(self.open_viewer)
 
+    def open_viewer(self):
+        self.viewer.show()
+
+    def open_data_changer(self):
         self.changing_form.oper_rbtns.buttons()[1].setChecked(True)
 
         if self.sender() in self.add_btns.buttons():
