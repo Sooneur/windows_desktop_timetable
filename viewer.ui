@@ -18,9 +18,61 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>472</width>
+     <width>550</width>
      <height>415</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="change_btn">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>375</y>
+     <width>150</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Edit</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="month_txt">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>15</y>
+     <width>85</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>month</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="back_month_btn">
+   <property name="geometry">
+    <rect>
+     <x>550</x>
+     <y>15</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PushButton</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="forward_month_btn">
+   <property name="geometry">
+    <rect>
+     <x>675</x>
+     <y>15</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PushButton</string>
    </property>
   </widget>
  </widget>

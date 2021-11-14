@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>430</width>
-    <height>460</height>
+    <height>425</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -83,130 +83,36 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QGroupBox" name="dead_btns">
+   <widget class="QPushButton" name="view_btn">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>390</y>
-      <width>200</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>GroupBox</string>
-    </property>
-    <widget class="QPushButton" name="add_dead_btn">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>99</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Add Deadline</string>
-     </property>
-     <attribute name="buttonGroup">
-      <string notr="true">add_btns</string>
-     </attribute>
-    </widget>
-    <widget class="QPushButton" name="chg_dead_btn">
-     <property name="geometry">
-      <rect>
-       <x>101</x>
-       <y>0</y>
-       <width>99</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Change Deadline</string>
-     </property>
-     <attribute name="buttonGroup">
-      <string notr="true">chg_btns</string>
-     </attribute>
-    </widget>
-   </widget>
-   <widget class="QGroupBox" name="ttab_btns">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>390</y>
-      <width>200</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>GroupBox</string>
-    </property>
-    <widget class="QPushButton" name="add_ttab_btn">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>99</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Add Time Table</string>
-     </property>
-     <attribute name="buttonGroup">
-      <string notr="true">add_btns</string>
-     </attribute>
-    </widget>
-    <widget class="QPushButton" name="chg_ttab_btn">
-     <property name="geometry">
-      <rect>
-       <x>101</x>
-       <y>0</y>
-       <width>99</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Change Time Table</string>
-     </property>
-     <attribute name="buttonGroup">
-      <string notr="true">chg_btns</string>
-     </attribute>
-    </widget>
-   </widget>
-   <widget class="QPushButton" name="view_dead_btn">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>350</y>
-      <width>200</width>
-      <height>30</height>
+      <y>345</y>
+      <width>411</width>
+      <height>25</height>
      </rect>
     </property>
     <property name="text">
-     <string>View All Deadlines</string>
+     <string>View</string>
     </property>
     <attribute name="buttonGroup">
      <string notr="true">view_btns</string>
     </attribute>
    </widget>
-   <widget class="QPushButton" name="view_ttab_btn">
+   <widget class="QPushButton" name="refresh_btn">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>350</y>
-      <width>200</width>
-      <height>30</height>
+      <x>10</x>
+      <y>375</y>
+      <width>411</width>
+      <height>25</height>
      </rect>
     </property>
     <property name="text">
-     <string>View Time Table</string>
+     <string>Refresh</string>
     </property>
-    <attribute name="buttonGroup">
-     <string notr="true">view_btns</string>
-    </attribute>
    </widget>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -221,16 +127,6 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="add_btns">
-   <property name="exclusive">
-    <bool>true</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="view_btns"/>
-  <buttongroup name="chg_btns">
-   <property name="exclusive">
-    <bool>true</bool>
-   </property>
-  </buttongroup>
  </buttongroups>
 </ui>
