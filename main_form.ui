@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>TimeTable</class>
+ <widget class="QMainWindow" name="TimeTable">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>430</width>
-    <height>425</height>
+    <width>550</width>
+    <height>405</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,9 +17,9 @@
    <widget class="QTableWidget" name="ttab_tabl">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>280</x>
       <y>20</y>
-      <width>200</width>
+      <width>260</width>
       <height>300</height>
      </rect>
     </property>
@@ -29,7 +29,7 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>200</width>
+      <width>260</width>
       <height>300</height>
      </rect>
     </property>
@@ -40,9 +40,9 @@
    <widget class="QLabel" name="ttab_txt">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>280</x>
       <y>0</y>
-      <width>200</width>
+      <width>261</width>
       <height>20</height>
      </rect>
     </property>
@@ -66,7 +66,7 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>200</width>
+      <width>261</width>
       <height>20</height>
      </rect>
     </property>
@@ -88,7 +88,7 @@
      <rect>
       <x>10</x>
       <y>354</y>
-      <width>411</width>
+      <width>530</width>
       <height>25</height>
      </rect>
     </property>
@@ -98,19 +98,6 @@
     <attribute name="buttonGroup">
      <string notr="true">view_btns</string>
     </attribute>
-   </widget>
-   <widget class="QPushButton" name="refresh_btn">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>379</y>
-      <width>411</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Refresh</string>
-    </property>
    </widget>
    <widget class="QPushButton" name="date_back_btn">
     <property name="geometry">
@@ -128,7 +115,7 @@
    <widget class="QPushButton" name="date_forw_btn">
     <property name="geometry">
      <rect>
-      <x>350</x>
+      <x>470</x>
       <y>323</y>
       <width>70</width>
       <height>30</height>
@@ -143,7 +130,7 @@
      <rect>
       <x>80</x>
       <y>323</y>
-      <width>270</width>
+      <width>391</width>
       <height>30</height>
      </rect>
     </property>
@@ -160,7 +147,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>430</width>
+     <width>550</width>
      <height>21</height>
     </rect>
    </property>

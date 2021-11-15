@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>300</width>
-    <height>360</height>
+    <height>370</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,9 +16,9 @@
   <widget class="QRadioButton" name="ttab_tabl_rbtn">
    <property name="geometry">
     <rect>
-     <x>165</x>
-     <y>40</y>
-     <width>105</width>
+     <x>188</x>
+     <y>60</y>
+     <width>77</width>
      <height>20</height>
     </rect>
    </property>
@@ -32,9 +32,9 @@
   <widget class="QRadioButton" name="dead_tabl_rbtn">
    <property name="geometry">
     <rect>
-     <x>165</x>
-     <y>10</y>
-     <width>105</width>
+     <x>30</x>
+     <y>60</y>
+     <width>66</width>
      <height>20</height>
     </rect>
    </property>
@@ -50,7 +50,7 @@
     <rect>
      <x>30</x>
      <y>10</y>
-     <width>105</width>
+     <width>50</width>
      <height>20</height>
     </rect>
    </property>
@@ -64,9 +64,9 @@
   <widget class="QRadioButton" name="chg_oper_rbtn">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>40</y>
-     <width>105</width>
+     <x>188</x>
+     <y>10</y>
+     <width>68</width>
      <height>20</height>
     </rect>
    </property>
@@ -84,7 +84,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>70</y>
+     <y>90</y>
      <width>280</width>
      <height>20</height>
     </rect>
@@ -97,7 +97,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>95</y>
+     <y>115</y>
      <width>280</width>
      <height>20</height>
     </rect>
@@ -107,7 +107,7 @@
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>150</y>
+     <y>170</y>
      <width>120</width>
      <height>20</height>
     </rect>
@@ -117,7 +117,7 @@
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>180</y>
+     <y>200</y>
      <width>120</width>
      <height>20</height>
     </rect>
@@ -127,7 +127,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>165</y>
+     <y>185</y>
      <width>50</width>
      <height>20</height>
     </rect>
@@ -140,7 +140,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>225</y>
+     <y>245</y>
      <width>50</width>
      <height>20</height>
     </rect>
@@ -153,7 +153,7 @@
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>240</y>
+     <y>260</y>
      <width>120</width>
      <height>20</height>
     </rect>
@@ -163,7 +163,7 @@
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>210</y>
+     <y>230</y>
      <width>120</width>
      <height>20</height>
     </rect>
@@ -173,7 +173,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>270</y>
+     <y>290</y>
      <width>50</width>
      <height>20</height>
     </rect>
@@ -186,7 +186,7 @@
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>270</y>
+     <y>290</y>
      <width>120</width>
      <height>20</height>
     </rect>
@@ -196,7 +196,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>300</y>
+     <y>320</y>
      <width>280</width>
      <height>40</height>
     </rect>
@@ -209,7 +209,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>120</y>
+     <y>140</y>
      <width>280</width>
      <height>20</height>
     </rect>
@@ -218,11 +218,27 @@
     <string>find</string>
    </property>
   </widget>
+  <widget class="QRadioButton" name="del_oper_rbtn">
+   <property name="geometry">
+    <rect>
+     <x>108</x>
+     <y>35</y>
+     <width>53</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">oper_rbtns</string>
+   </attribute>
+  </widget>
  </widget>
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="oper_rbtns"/>
   <buttongroup name="tabl_rbtns"/>
+  <buttongroup name="oper_rbtns"/>
  </buttongroups>
 </ui>

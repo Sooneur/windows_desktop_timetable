@@ -5,7 +5,7 @@ from calendar import monthrange
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QTableWidgetItem
-from main_form import Ui_MainWindow
+from main_form import Ui_TimeTable
 from data_change_form import Ui_Dialog as UI_Data_Change
 from viewer import Ui_Dialog as UI_Viewer
 
@@ -25,9 +25,9 @@ class TableElementTime:
         time_of_start, period, date_of_end, time_of_end)
         VALUES (
         (SELECT id FROM TableElements WHERE title = "{title}"),
-        {self.date_of_start.strftime(date_format)}, {self.time_of_start.strftime(time_format)},
+        "{self.date_of_start.strftime(date_format)}", "{self.time_of_start.strftime(time_format)}",
         {self.period},
-        {self.date_of_end.strftime(date_format)}, {self.time_of_end.strftime(time_format)})'''
+        "{self.date_of_end.strftime(date_format)}", "{self.time_of_end.strftime(time_format)}")'''
         return query
 
     def make_change_query(self, title):
@@ -45,10 +45,14 @@ class TableElementTime:
 
 
 class ChangingForm(QDialog, UI_Data_Change):
-    def __init__(self, db_con):
+    def __init__(self, db_con, viewer, main):
         super().__init__()
         self.setupUi(self)
+
+        self.setWindowTitle('Time Manager')
         self.db_con = db_con
+        self.viewer = viewer
+        self.main = main
         [btn.clicked.connect(self.change_operation) for btn in self.oper_rbtns.buttons()]
         [btn.clicked.connect(self.change_table) for btn in self.tabl_rbtns.buttons()]
         self.commit_btn.clicked.connect(self.commit_data)
@@ -61,8 +65,16 @@ class ChangingForm(QDialog, UI_Data_Change):
             self.types,
             cur.execute("SELECT title FROM Types").fetchall()
         ))
-        self.chosen_type = self.types['deadline']
+        if self.dead_tabl_rbtn.isChecked():
+            self.chosen_type = self.types['deadline']
+        else:
+            self.chosen_type = self.types["timetable"]
         self.update_all_data()
+
+    def close(self):
+        self.viewer.update_data()
+        self.main.show_data()
+        super(ChangingForm, self).close()
 
     def update_current_data(self):
         cur = self.db_con.cursor()
@@ -98,6 +110,21 @@ class ChangingForm(QDialog, UI_Data_Change):
         for i, item in enumerate(cur.execute(query).fetchall()):
             self.select_cbx.addItem(item[0])
 
+    def show_change_stuff(self):
+        self.start_time_edt.setVisible(not self.is_delete)
+        self.start_date_edt.setVisible(not self.is_delete)
+        self.start_txt.setVisible(not self.is_delete)
+        self.end_date_edt.setVisible(not self.is_delete)
+        self.end_time_edt.setVisible(not self.is_delete)
+        self.end_txt.setVisible(not self.is_delete)
+        if not self.chosen_type == self.types["deadline"]:
+            self.period_txt.setVisible(not self.is_delete)
+            self.period_days_edt.setVisible(not self.is_delete)
+        if self.is_delete:
+            self.select_cbx.setVisible(True)
+            self.find_btn.setVisible(True)
+            self.commit_btn.setText("Delete")
+
     def change_operation(self):
         if self.oper_rbtns.checkedButton() is self.add_oper_rbtn:
             self.commit_btn.setText("Add")
@@ -106,10 +133,22 @@ class ChangingForm(QDialog, UI_Data_Change):
             self.commit_btn.setText("Change")
             change = True
 
-        self.is_change_operation = change
-        self.select_cbx.setVisible(change)
-        self.find_btn.setVisible(change)
-        self.update_all_data()
+        if self.oper_rbtns.checkedButton() is self.del_oper_rbtn:
+            delete = True
+        else:
+            delete = False
+
+        if not delete:
+            self.is_change_operation = change
+            self.select_cbx.setVisible(change)
+            self.find_btn.setVisible(change)
+            self.update_all_data()
+            self.is_delete = False
+            self.show_change_stuff()
+        else:
+            self.is_delete = True
+
+        self.show_change_stuff()
 
     def change_table(self):
         if self.tabl_rbtns.checkedButton() is self.dead_tabl_rbtn:
@@ -118,35 +157,45 @@ class ChangingForm(QDialog, UI_Data_Change):
         else:
             self.chosen_type = self.types["timetable"]
             time_table = True
-        self.period_days_edt.setVisible(time_table)
-        self.period_txt.setVisible(time_table)
+        if not self.is_delete:
+            self.period_days_edt.setVisible(time_table)
+            self.period_txt.setVisible(time_table)
         self.update_all_data()
 
     def commit_data(self):
-        time_data = [
-            self.start_date_edt.date().toPyDate(),  # date_of_start
-            self.start_time_edt.time().toPyTime(),  # time_of_start
-            self.end_date_edt.date().toPyDate(),  # date_of_end
-            self.end_time_edt.time().toPyTime(),  # time_of_end
-            self.period_days_edt.value()  # period
-        ]
-        table_element_time = TableElementTime(*time_data)
-
         cur = self.db_con.cursor()
         title = self.title_edt.text()
         type_id = self.get_type_id()
-
-        if self.is_change_operation:
+        if self.is_delete:
             query_1 = f'''
-            UPDATE TableElements
-            SET title = "{title}", type_id = "{type_id}"
-            WHERE title = "{self.select_cbx.currentText()}"'''
-            query_2 = table_element_time.make_change_query(title)
+                        DELETE FROM TableElementTime
+                        WHERE table_element_id = (
+                        SELECT id FROM TableElements
+                        WHERE title = "{self.title_edt}")'''
+            query_2 = f'''
+                        DELETE FROM TableElements
+                        WHERE title = "{self.title_edt}"'''
         else:
-            query_1 = f'''
-            INSERT INTO TableElements(title, type_id)
-            VALUES ("{title}", "{type_id}")'''
-            query_2 = table_element_time.make_add_query(title)
+            time_data = [
+                self.start_date_edt.date().toPyDate(),  # date_of_start
+                self.start_time_edt.time().toPyTime(),  # time_of_start
+                self.end_date_edt.date().toPyDate(),  # date_of_end
+                self.end_time_edt.time().toPyTime(),  # time_of_end
+                self.period_days_edt.value()  # period
+            ]
+            table_element_time = TableElementTime(*time_data)
+
+            if self.is_change_operation:
+                query_1 = f'''
+                UPDATE TableElements
+                SET title = "{title}", type_id = "{type_id}"
+                WHERE title = "{self.select_cbx.currentText()}"'''
+                query_2 = table_element_time.make_change_query(title)
+            else:
+                query_1 = f'''
+                INSERT INTO TableElements(title, type_id)
+                VALUES ("{title}", "{type_id}")'''
+                query_2 = table_element_time.make_add_query(title)
 
         cur.execute(query_1).fetchall()
         cur.execute(query_2).fetchall()
@@ -155,26 +204,32 @@ class ChangingForm(QDialog, UI_Data_Change):
 
 
 class Viewer(QDialog, UI_Viewer):
-    def __init__(self, db_con):
+    def __init__(self, db_con, main):
         super().__init__()
         self.setupUi(self)
+
+        self.setWindowTitle('Time Manager')
         self.db_con = db_con
 
-        self.changing_form = ChangingForm(self.db_con)
+        self.is_deadline = False
+        self.ttab_rbtn.setChecked(True)
+        self.changing_form = ChangingForm(self.db_con, self, main)
 
         self.today = datetime.today()
-        self.month_txt.setText(str(self.today))
+        self.today.replace(self.today.year, self.today.month, 1)
+        self.back_month_btn.clicked.connect(self.change_month)
+        self.forward_month_btn.clicked.connect(self.change_month)
+        self.month_txt.setText(self.today.strftime("%Y.%m"))
+        [btn.clicked.connect(self.update_data) for btn in self.type_bgp.buttons()]
 
         self.change_btn.clicked.connect(self.open_data_changer)
-        # self.back_month_btn.clicked.connect(self.change_month)
-        # self.forward_month_btn.clicked.connect(self.change_month)
         self.update_data()
-
+    
     def update_data(self):
+        self.viewer_tbl.clear()
         cur = self.db_con.cursor()
         start_day, number_of_days = monthrange(self.today.year, self.today.month)
-
-        self.rows = number_of_days // 7 + min(1, number_of_days % 7)
+        self.rows = (start_day + number_of_days) // 7 + min(1, start_day + number_of_days % 7)
         self.row_height = 65
         self.columns = 7
         self.column_width = 76
@@ -191,66 +246,82 @@ class Viewer(QDialog, UI_Viewer):
             self.viewer_tbl.setColumnWidth(i, self.column_width)
 
         query = f'''SELECT TableElements.title, TableElementTime.date_of_start,
-                    TableElementTime.date_of_end, TableElementTime.time_of_start,
-                    TableElementTime.time_of_end, TableElementTime.period FROM TableElements
-                    JOIN TableElementTime ON TableElementTime.table_element_id = TableElements.id
-                    WHERE type_id = 1'''
-        result = cur.execute(query).fetchall()
-        table = [[] for i in range(number_of_days)]
-        for table_element in result:
-            date_of_end = datetime(*list(
-                map(int, reversed((table_element[2][:2], table_element[2][2:4], table_element[2][4:])))))
-            if date_of_end >= datetime(self.today.year, self.today.month, 1):
-                title = table_element[0]
-                date_of_start = datetime(*list(
-                    map(int, reversed((table_element[1][:2], table_element[1][2:4], table_element[1][4:])))))
-                time_of_start = table_element[3]
-                time_of_end = table_element[4]
-                period = table_element[5]
-                new_day = datetime(*list(
-                    map(int, reversed((table_element[1][:2], table_element[1][2:4], table_element[1][4:])))))
-                if period != 0:
-                    while new_day.month <= self.today.month:
+                        TableElementTime.date_of_end, TableElementTime.time_of_start,
+                        TableElementTime.time_of_end, TableElementTime.period FROM TableElements
+                        JOIN TableElementTime ON TableElementTime.table_element_id = TableElements.id
+                        WHERE type_id = '''
+        if self.type_bgp.checkedButton() is self.ttab_rbtn:
+            query += "1"
+            result = cur.execute(query).fetchall()
+            table = [[] for i in range(number_of_days)]
+            for table_element in result:
+                date_of_end = datetime(*list(
+                    map(int, reversed((table_element[2][:2], table_element[2][2:4], table_element[2][4:])))))
+                if date_of_end >= datetime(self.today.year, self.today.month, 1):
+                    title = table_element[0]
+                    date_of_start = datetime(*list(
+                        map(int, reversed((table_element[1][:2], table_element[1][2:4], table_element[1][4:])))))
+                    time_of_start = table_element[3]
+                    time_of_end = table_element[4]
+                    period = table_element[5]
+                    new_day = datetime(*list(
+                        map(int, reversed((table_element[1][:2], table_element[1][2:4], table_element[1][4:])))))
+                    if period != 0:
+                        while new_day <= date_of_end:
+                            if new_day.month == self.today.month:
+                                table[new_day.day - 1].append(table_element[0])
+                            new_day = new_day + timedelta(days=period)
+                    else:
                         if new_day.month == self.today.month:
-                            table[new_day.day].append(table_element)
-                        new_day = new_day + timedelta(days=period)
-                else:
-                    if new_day.month == self.today.month:
-                        table[new_day.day].append(table_element)
+                            table[new_day.day - 1].append(table_element[0])
+        else:
+            query += "2"
+            result = cur.execute(query).fetchall()
+            table = [[] for i in range(number_of_days)]
+            for table_element in result:
+                date_of_end = datetime(*list(
+                    map(int, reversed((table_element[2][:2], table_element[2][2:4], table_element[2][4:])))))
+                if datetime(self.today.year, self.today.month, date_of_end.day) == date_of_end:
+                    table[date_of_end.day - 1].append(table_element[0])
+                    print(1)
+        for i in range(number_of_days):
+            if table[i]:
+                item = QTableWidgetItem("\n".join(table[i]))
+            else:
+                item = QTableWidgetItem(str(i + 1))
+            item.setTextAlignment(4)
+            self.viewer_tbl.setItem((start_day + i) // 7, (start_day + i) % 7, item)
 
     def change_month(self):
-        change = -1
-        if self.sender() is self.forward_month_btn:
-            change = 1
-        # self.today.replace()
-        self.month_txt.setText(str(self.today))
+        if self.sender() is self.back_month_btn:
+            self.today = self.today + timedelta(days=-(monthrange(self.today.year, self.today.month))[1])
+        else:
+            self.today = self.today + timedelta(days=(monthrange(self.today.year, self.today.month))[1])
+        self.month_txt.setText(self.today.strftime("%Y.%m"))
+        self.update_data()
 
     def open_data_changer(self):
 
         self.changing_form.oper_rbtns.buttons()[1].setChecked(True)
-        # if self.sender() in self.add_btns.buttons():
-        #     self.changing_form.oper_rbtns.buttons()[0].setChecked(True)
 
         self.changing_form.change_operation()
 
         self.changing_form.tabl_rbtns.buttons()[1].setChecked(True)
         self.changing_form.chosen_type = self.changing_form.types['deadline']
-        # if self.sender().parent() != self.dead_btns:
-        #     self.changing_form.tabl_rbtns.buttons()[0].setChecked(True)
-        #     self.changing_form.chosen_type = self.changing_form.types['timetable']
+        if not self.dead_rbtn.isChecked():
+            self.changing_form.tabl_rbtns.buttons()[0].setChecked(True)
+            self.changing_form.chosen_type = self.changing_form.types['timetable']
 
         self.changing_form.change_table()
-
         self.changing_form.show()
 
 
-class Main(QMainWindow, Ui_MainWindow):
+class Main(QMainWindow, Ui_TimeTable):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-
         self.db_con = sqlite3.connect("db.db")
-        self.viewer = Viewer(self.db_con)
+        self.viewer = Viewer(self.db_con, self)
 
         self.today = date.today() + timedelta(days=-1)
         self.change_date()
@@ -258,7 +329,6 @@ class Main(QMainWindow, Ui_MainWindow):
         self.ttab_tabl.setColumnCount(2)
         self.show_data()
         self.view_btn.clicked.connect(self.open_viewer)
-        self.refresh_btn.clicked.connect(self.show_data)
         self.date_back_btn.clicked.connect(self.change_date)
         self.date_forw_btn.clicked.connect(self.change_date)
 
@@ -324,8 +394,6 @@ class Main(QMainWindow, Ui_MainWindow):
             table_element_time = f"{dead_line_el[4][:2]}:{dead_line_el[4][2:]}"
             self.dead_tabl.setItem(i, 1, QTableWidgetItem(table_element_time))
         self.dead_tabl.resizeColumnsToContents()
-
-        pass
 
 
 def except_hook(cls, exception, traceback):

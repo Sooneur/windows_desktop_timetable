@@ -48,6 +48,9 @@
    <property name="text">
     <string>month</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QPushButton" name="back_month_btn">
    <property name="geometry">
@@ -59,7 +62,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>PushButton</string>
+    <string>&lt;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="forward_month_btn">
@@ -72,10 +75,48 @@
     </rect>
    </property>
    <property name="text">
-    <string>PushButton</string>
+    <string>&gt;</string>
    </property>
+  </widget>
+  <widget class="QRadioButton" name="dead_rbtn">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>70</y>
+     <width>145</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="text">
+    <string>Deadlines</string>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">type_bgp</string>
+   </attribute>
+  </widget>
+  <widget class="QRadioButton" name="ttab_rbtn">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>100</y>
+     <width>145</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Time Table</string>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">type_bgp</string>
+   </attribute>
   </widget>
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="type_bgp"/>
+ </buttongroups>
 </ui>
