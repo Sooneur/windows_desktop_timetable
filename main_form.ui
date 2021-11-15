@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>40</y>
+      <y>20</y>
       <width>200</width>
       <height>300</height>
      </rect>
@@ -28,7 +28,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>40</y>
+      <y>20</y>
       <width>200</width>
       <height>300</height>
      </rect>
@@ -41,7 +41,7 @@
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>10</y>
+      <y>0</y>
       <width>200</width>
       <height>20</height>
      </rect>
@@ -65,7 +65,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
+      <y>0</y>
       <width>200</width>
       <height>20</height>
      </rect>
@@ -87,7 +87,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>345</y>
+      <y>354</y>
       <width>411</width>
       <height>25</height>
      </rect>
@@ -103,13 +103,55 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>375</y>
+      <y>379</y>
       <width>411</width>
       <height>25</height>
      </rect>
     </property>
     <property name="text">
      <string>Refresh</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="date_back_btn">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>323</y>
+      <width>70</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="date_forw_btn">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>323</y>
+      <width>70</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="date_txt">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>323</y>
+      <width>270</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>

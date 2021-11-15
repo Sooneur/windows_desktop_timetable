@@ -190,27 +190,33 @@ class Viewer(QDialog, UI_Viewer):
         for i in range(self.columns):
             self.viewer_tbl.setColumnWidth(i, self.column_width)
 
-        for i in range(number_of_days):
-            self.viewer_tbl.setItem(i // 7, (start_day + i) % 7, QTableWidgetItem(str(i + 1)))
-
         query = f'''SELECT TableElements.title, TableElementTime.date_of_start,
                     TableElementTime.date_of_end, TableElementTime.time_of_start,
                     TableElementTime.time_of_end, TableElementTime.period FROM TableElements
                     JOIN TableElementTime ON TableElementTime.table_element_id = TableElements.id
                     WHERE type_id = 1'''
         result = cur.execute(query).fetchall()
+        table = [[] for i in range(number_of_days)]
         for table_element in result:
-            title = table_element[0]
-            date_of_start = datetime(*list(
-                map(int, reversed((table_element[1][:2], table_element[1][2:4], table_element[1][4:])))))
             date_of_end = datetime(*list(
                 map(int, reversed((table_element[2][:2], table_element[2][2:4], table_element[2][4:])))))
-            time_of_start = table_element[3]
-            time_of_end = table_element[4]
-            period = table_element[5]
-            if self.today < date_of_end:
-                # print(table_element, date_of_end)
-                pass
+            if date_of_end >= datetime(self.today.year, self.today.month, 1):
+                title = table_element[0]
+                date_of_start = datetime(*list(
+                    map(int, reversed((table_element[1][:2], table_element[1][2:4], table_element[1][4:])))))
+                time_of_start = table_element[3]
+                time_of_end = table_element[4]
+                period = table_element[5]
+                new_day = datetime(*list(
+                    map(int, reversed((table_element[1][:2], table_element[1][2:4], table_element[1][4:])))))
+                if period != 0:
+                    while new_day.month <= self.today.month:
+                        if new_day.month == self.today.month:
+                            table[new_day.day].append(table_element)
+                        new_day = new_day + timedelta(days=period)
+                else:
+                    if new_day.month == self.today.month:
+                        table[new_day.day].append(table_element)
 
     def change_month(self):
         change = -1
@@ -246,13 +252,23 @@ class Main(QMainWindow, Ui_MainWindow):
         self.db_con = sqlite3.connect("db.db")
         self.viewer = Viewer(self.db_con)
 
-        self.tomorrow = date.today() + timedelta(days=1)
-        self.dead_tabl.setColumnCount(1)
+        self.today = date.today() + timedelta(days=-1)
+        self.change_date()
+        self.dead_tabl.setColumnCount(2)
         self.ttab_tabl.setColumnCount(2)
-
         self.show_data()
         self.view_btn.clicked.connect(self.open_viewer)
         self.refresh_btn.clicked.connect(self.show_data)
+        self.date_back_btn.clicked.connect(self.change_date)
+        self.date_forw_btn.clicked.connect(self.change_date)
+
+    def change_date(self):
+        if self.sender() is self.date_back_btn:
+            self.today = self.today + timedelta(days=-1)
+        else:
+            self.today = self.today + timedelta(days=1)
+        self.date_txt.setText(self.today.strftime("%d.%m.%Y"))
+        self.show_data()
 
     def open_viewer(self):
         self.viewer.show()
@@ -269,14 +285,18 @@ class Main(QMainWindow, Ui_MainWindow):
         result = cur.execute(query).fetchall()
         for res in result:
             date_of_end = date(*list(map(int, reversed((res[2][:2], res[2][2:4], res[2][4:])))))
-            if date_of_end >= self.tomorrow:
+            if date_of_end >= self.today:
                 date_of_start = date(*list(map(int, reversed((res[1][:2], res[1][2:4], res[1][4:])))))
                 new_date = date(*list(map(int, reversed((res[1][:2], res[1][2:4], res[1][4:])))))
                 period = res[5]
-                while new_date < date_of_end:
-                    if self.tomorrow == new_date:
+                if period != 0:
+                    while new_date < date_of_end:
+                        if self.today == new_date:
+                            time_table_list.append(res)
+                        new_date = new_date + timedelta(days=period)
+                else:
+                    if self.today == new_date:
                         time_table_list.append(res)
-                    new_date = new_date + timedelta(days=period)
 
         self.ttab_tabl.setRowCount(len(time_table_list))
         for i, time_table_el in enumerate(time_table_list):
@@ -295,12 +315,14 @@ class Main(QMainWindow, Ui_MainWindow):
         result = cur.execute(query).fetchall()
         for res in result:
             date_of_end = date(*list(map(int, reversed((res[2][:2], res[2][2:4], res[2][4:])))))
-            if date_of_end >= self.tomorrow:
+            if date_of_end >= self.today:
                 dead_line_list.append(res)
 
         self.dead_tabl.setRowCount(len(dead_line_list))
         for i, dead_line_el in enumerate(dead_line_list):
             self.dead_tabl.setItem(i, 0, QTableWidgetItem(dead_line_el[0]))
+            table_element_time = f"{dead_line_el[4][:2]}:{dead_line_el[4][2:]}"
+            self.dead_tabl.setItem(i, 1, QTableWidgetItem(table_element_time))
         self.dead_tabl.resizeColumnsToContents()
 
         pass
